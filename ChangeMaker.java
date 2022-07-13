@@ -22,12 +22,34 @@ public class ChangeMaker {
 
         while(n > 0)
         {
-            // Get change and output results
+            // Get change using DP and output results
             int[] R = change_DP(n, denoms);
+
             // Output results
             System.out.printf("DP algorithm results%nAmount: %d%n", n);
             System.out.printf("Optimal distribution: ");
             int count = 0;
+            for(int j = 0; j < R.length; j++)
+            {
+                if(R[j] > 0)
+                {
+                    if(count == 0)
+                        System.out.printf("%d*%dc", R[j], denoms[j]);
+                    else
+                        System.out.printf(" + %d*%dc", R[j], denoms[j]);
+                    count += R[j];
+                }
+            }
+            System.out.printf("%nOptimal coin count: %d%n", count);
+
+
+            // Get change using greedy algo
+            R = change_greedy(n, denoms);
+
+            // Output results
+            System.out.printf("%nGreedy algorithm results%nAmount: %d%n", n);
+            System.out.printf("Optimal distribution: ");
+            count = 0;
             for(int j = 0; j < R.length; j++)
             {
                 if(R[j] > 0)
@@ -53,7 +75,7 @@ public class ChangeMaker {
 
         for(int j = 1; j <= n; j++) // Solve Cj
         {
-            int min = 1000000000;
+            int min = 2147483647; // set to infinity (max value of integer)
             for(int i = 0; i < d.length; i++)
             {
                 if(j >= d[i])
@@ -72,9 +94,22 @@ public class ChangeMaker {
             B[A[n]] += 1;
             n -= d[A[n]];
         }
-
         return B;
     }
 
+
+    public static int[] change_greedy(int n, int[] d)
+    {
+        int[] C = new int[d.length];
+        int ind = 0;
+        while(n > 0)
+        {
+            while(d[ind] > n)
+                ind++;
+            C[ind] = n / d[ind];
+            n -= C[ind] * d[ind];
+        }
+        return C;
+    }
 
 }
