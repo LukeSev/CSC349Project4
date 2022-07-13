@@ -23,6 +23,8 @@ public class Tester {
             {
                 dp = ChangeMaker.change_DP(i, d[k]);
                 greedy = ChangeMaker.change_greedy(i, d[k]);
+                dp_coins = 0;
+                greedy_coins = 0;
                 for(int j = 0; j < d[k].length; j++)
                 {
                     if(dp[j] != 0)
@@ -32,6 +34,8 @@ public class Tester {
                 }
                 if(dp_coins == greedy_coins)
                     count++;
+                else
+                    count += 0;
             }
             System.out.printf("Testing set%d: %d matches in 200 tests%n", k+1, count);
         }
